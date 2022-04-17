@@ -9,11 +9,14 @@ import HomePage from "./pages/HomePage";
 
 function App() {
   return (
+    <div className="App">
+
     <Routes>
       LOOLA
       <Route path="/" element={<HomePage />}/>
       <Route path="/chats" element={<ChatPage />}/>
     </Routes>
+    </div>
   );
 }
 

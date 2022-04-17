@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Amatic SC', cursive;
+    direction: rtl;
+    font-size: 1rem;
+}
+
+.App{
+    min-height: 100vh;
+    display: flex;
+    background-image: url('./assets/images/internet-6507584_1920.jpg');
+    background-size: cover;
+    /* background-position: center; */
+}
