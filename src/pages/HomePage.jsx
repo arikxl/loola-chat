@@ -3,6 +3,8 @@ import {
   Box, Container, Tab, TabList,
   TabPanel, TabPanels, Tabs, Text
 } from '@chakra-ui/react';
+
+
 import Login from '../components/auth/Login';
 import SignUp from '../components/auth/SignUp';
 

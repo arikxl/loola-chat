@@ -14,7 +14,7 @@ function App() {
     <Routes>
       LOOLA
       <Route path="/" element={<HomePage />}/>
-      <Route path="/chats" element={<ChatPage />}/>
+      <Route path="/api/chats" element={<ChatPage />}/>
     </Routes>
     </div>
   );
