@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
 
-
 import './App.css';
 import ChatPage from "./pages/ChatPage";
 import HomePage from "./pages/HomePage";
@@ -14,7 +13,7 @@ function App() {
     <Routes>
       LOOLA
       <Route path="/" element={<HomePage />}/>
-      <Route path="/api/chats" element={<ChatPage />}/>
+      <Route path="/chats" element={<ChatPage />}/>
     </Routes>
     </div>
   );
