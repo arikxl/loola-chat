@@ -53,7 +53,7 @@ const Login = () => {
       });
       localStorage.setItem('chatUserInfo', JSON.stringify(data));
       setLoading(false);
-      navigate('/chats');
+      navigate('/api/chats');
     }
     catch (err) {
       toast({

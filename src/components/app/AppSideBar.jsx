@@ -1,20 +1,31 @@
-import React, { useState } from 'react'
-import { Avatar, Box, Button, Menu, MenuButton, MenuDivider,
-         MenuItem, MenuList, Text, Tooltip 
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Avatar, Box, Button, Menu, MenuButton, MenuDivider,
+  MenuItem, MenuList, Text, Tooltip
 } from '@chakra-ui/react';
 import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons';
 
 import { ChatState } from '../../context/chatProvider';
+import AppProfileModal from './AppProfileModal';
 
 const AppSideBar = () => {
 
-  const { user } = ChatState()
-  const {name, img} = user;
+  const navigate = useNavigate();
+  const { user } = ChatState();
+  const { name, img } = user;
 
   const [search, setSearch] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(null);
+
+  const handleLogout = () => {
+    if (window.confirm('Are you sure you want to logout?')) {
+      localStorage.removeItem('chatUserInfo');
+      navigate('/');
+    }
+  };
 
 
   return (
@@ -44,12 +55,14 @@ const AppSideBar = () => {
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
               <Avatar size='sm' cursor='pointer' name={name}
-              src={img}/>
+                src={img} />
             </MenuButton>
             <MenuList>
-              <MenuItem>אני עצמי ואנוכי</MenuItem>
+              <AppProfileModal user={user}>
+                <MenuItem>אני עצמי ואנוכי</MenuItem>
+              </AppProfileModal>
               <MenuDivider />
-              <MenuItem>התנתקות</MenuItem>
+              <MenuItem onClick={handleLogout}>התנתקות</MenuItem>
             </MenuList>
           </Menu>
         </div>
