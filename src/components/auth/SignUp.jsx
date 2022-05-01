@@ -24,7 +24,6 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const postDetails = (images) => {
-    console.log('images:', images)
     setLoading(true);
     if (images === undefined) {
       toast({
@@ -47,7 +46,6 @@ const SignUp = () => {
         body: data
       }).then((res) => res.json())
         .then((data) => {
-          console.log('data:', data)
           setImg(data.url.toString());
           setLoading(false);
         })
@@ -70,7 +68,7 @@ const SignUp = () => {
 
   const handleSubmit =  async () => {
     setLoading(true);
-    if(!name || !email || !password || !confirmPassword || !img){
+    if(!name || !email || !password || !confirmPassword){
       toast({
         title: 'נא למלא את כל השדות',
         status: 'error',
@@ -109,7 +107,7 @@ const SignUp = () => {
 
       localStorage.setItem('chatUserInfo', JSON.stringify(data));
       setLoading(false);
-      navigate('/api/chats');
+      navigate('/chats');
     } catch (error) {
       toast({
         title: 'הרישום לא הצליח',
@@ -171,7 +169,7 @@ const SignUp = () => {
         </InputGroup>
       </FormControl>
 
-      <FormControl id='img' isRequired>
+      <FormControl id='img' >
         <FormLabel>
           תמונה מהממת בבקשה
         </FormLabel>

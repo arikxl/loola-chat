@@ -10,7 +10,6 @@ import { ViewIcon } from '@chakra-ui/icons';
 const AppProfileModal = ({ user, children }) => {
 
     const { name, img, email, _id } = user;
-    console.log('img:', img)
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
