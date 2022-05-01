@@ -30,7 +30,7 @@ const AppProfileModal = ({ user, children }) => {
                     <ModalCloseButton />
                     <ModalBody alignItems='center' d='flex' flexDirection='column'>
                         <Image src={img ? img
-                            : `https://avatars.dicebear.com/api/adventurer-neutral/${_id}.svg`
+                            : `https://avatars.dicebear.com/api/open-peeps/${_id}.svg`
                         }
                             alt={name}
                             borderRadius='full' boxSize='150px' />

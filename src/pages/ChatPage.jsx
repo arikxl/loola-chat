@@ -3,9 +3,10 @@ import axios from 'axios';
 import { Box } from '@chakra-ui/react';
 
 import ChatList from '../components/Chat/ChatList';
-import AppSideBar from '../components/app/AppSideBar';
+// import AppSideBar from '../components/app/AppSideBar';
 import ChatDetails from '../components/Chat/ChatDetails';
 import { ChatState } from '../context/chatProvider';
+import ChatHeader from '../components/Chat/ChatHeader';
 
 
 const ChatPage = () => {
@@ -14,7 +15,7 @@ const ChatPage = () => {
 
     return (
         <div style={{width:'100%'}}>
-            {user && <AppSideBar />}
+            {user && <ChatHeader />}
             <Box d='flex' justifyContent='space-between' 
                  w='100%' h='92vh' p='10px'>
                 {user && <ChatList />}
