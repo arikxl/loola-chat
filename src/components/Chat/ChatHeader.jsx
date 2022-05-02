@@ -4,13 +4,11 @@ import {
   Avatar, Box, Button, Drawer, DrawerBody, DrawerContent,
   DrawerFooter, DrawerHeader, DrawerOverlay, Input, Menu,
   MenuButton, MenuDivider,
-  MenuItem, MenuList, Text, Tooltip, useToast,
+  MenuItem, MenuList, Spinner, Text, Tooltip, useToast,
 } from '@chakra-ui/react';
 import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { useDisclosure } from '@chakra-ui/hooks';
 import axios from 'axios';
-
-
 
 import { ChatState } from '../../context/chatProvider';
 import AppProfileModal from '../app/AppProfileModal';
@@ -22,14 +20,14 @@ const ChatHeader = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const navigate = useNavigate();
   const toast = useToast();
-  const { user } = ChatState();
+  const { user, setSelectedChat, chats, setChats } = ChatState();
   const { name, img, token, _id } = user;
 
 
   const [search, setSearch] = useState('');
-  const [searchResult, setSearchResult] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(null);
+  const [searchResult, setSearchResult] = useState([]);
 
   const handleLogout = () => {
     if (window.confirm('Are you sure you want to logout?')) {
@@ -83,8 +81,32 @@ const ChatHeader = () => {
     }
   };
 
-  const accessChat = (id) => {
+  const accessChat = async (id) => {
+     try {
+      setLoadingChat(true);
 
+      const config = {
+        Headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        }
+      };
+
+      const {data} = await axios.post(`/api/chat`, { id }, config);
+
+      setSelectedChat(data);
+      setLoadingChat(false);
+      onClose();
+     } catch (error) {
+      toast({
+        title: `שגיאה בחיבור לצ'ט`,
+        status: 'error',
+        description: error.message,
+        duration: 4000,
+        isClosable: true,
+        position: 'bottom-right'
+      });
+     }
   };
 
 
@@ -114,8 +136,9 @@ const ChatHeader = () => {
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
               <Avatar size='sm' cursor='pointer' name={name}
-               src={img || `https://avatars.dicebear.com/api/open-peeps/${_id}.svg`} />
-              
+                src={img || `https://robohash.org/${_id}?set=set4`} />
+              {/* src={img || `https://avatars.dicebear.com/api/open-peeps/${_id}.svg`} /> */}
+
             </MenuButton>
             <MenuList>
               <AppProfileModal user={user}>
@@ -135,32 +158,32 @@ const ChatHeader = () => {
       >
         <DrawerOverlay />
         <DrawerContent>
+
           <DrawerHeader borderBottomWidth='1px'>
             חיפוש חברים
           </DrawerHeader>
 
-
-
           <DrawerBody>
             <Box d='flex' pb={2}>
-              <Input placeholder='חיפוש לפי שם או אימייל'
-                ml={3} value={search} onChange={(e) => setSearch(e.target.value)} />
-              <Button onClick={handleSearch}>GO</Button>
+                <Input placeholder='חיפוש לפי שם או אימייל'
+                  ml={3} value={search} onChange={(e) => setSearch(e.target.value)} />
+                <Button onClick={handleSearch}>GO</Button>
             </Box>
             {isLoading ? <LoadingSkeleton />
               : (
                 searchResult?.map((user) => (
                   <UserItem key={user._Id} user={user}
-                  onClick={()=> accessChat(user._id)} />
+                    onClick={() => accessChat(user._id)} />
                 ))
               )}
+
+              {loadingChat && <Spinner ml='auto' d='flex'/>}
           </DrawerBody>
 
           <DrawerFooter>
             <Button variant='outline' ml={3} onClick={onClose}>
-              Cancel
+              סגירה
             </Button>
-            <Button colorScheme='blue'>Save</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

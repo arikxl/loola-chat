@@ -13,8 +13,8 @@ const UserItem = ({ user, onClick }) => {
             px={3} py={2} mb={2} borderRadius='lg'
         >
             <Avatar ml={2} size='sm' cursor='pointer'
-                name={name} src={img || `https://avatars.dicebear.com/api/open-peeps/${_id}.svg`} />
-                {/* name={name} src={img || `https://avatars.dicebear.com/api/adventurer-neutral/${email}.svg`} /> */}
+                name={name} src={img || `https://robohash.org/${_id}?set=set4`} />
+                {/* name={name} src={img || `https://avatars.dicebear.com/api/open-peeps/${_id}.svg`} /> */}
             <Box>
                 <Text>{name}</Text>
             </Box>
