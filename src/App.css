@@ -85,3 +85,16 @@
       transform: translateX(0px);
     }
   }
+
+
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(136, 136, 136, 0.3 );
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
