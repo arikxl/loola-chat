@@ -82,6 +82,7 @@ const ChatHeader = () => {
   };
 
   const accessChat = async (id) => {
+     console.log('id:', id)
      try {
       setLoadingChat(true);
 
@@ -171,8 +172,8 @@ const ChatHeader = () => {
             </Box>
             {isLoading ? <LoadingSkeleton />
               : (
-                searchResult?.map((user) => (
-                  <UserItem key={user._Id} user={user}
+                searchResult?.map((user, index) => (
+                  <UserItem key={index} user={user}
                     onClick={() => accessChat(user._id)} />
                 ))
               )}

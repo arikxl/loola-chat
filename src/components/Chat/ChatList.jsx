@@ -11,7 +11,9 @@ const ChatList = () => {
   const [loggedUser, setLoggedUser] = useState(null);
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const { name, img, token, _id } = user;
-
+  // console.log('token:', token)
+  // console.log('_id:', _id)
+  
   const fetchChats = async () => {
     try {
       const config = {
@@ -19,13 +21,14 @@ const ChatList = () => {
           Authorization: `Bearer ${token}`,
         }
       };
-
+      
       const { data} = await axios.get('/api/chat', config);
-
+      
       if(!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
-
+      
       setChats(data);
     } catch (error) {
+      console.log('AAAA', error.message)
       toast({
         title: `שגיאה חמורה!`,
         status: 'error',
