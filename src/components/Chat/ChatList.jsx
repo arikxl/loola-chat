@@ -22,7 +22,7 @@ const ChatList = () => {
         }
       };
       
-      const { data} = await axios.get('/api/chat', config);
+      const { data } = await axios.get('/api/chat', config);
       
       if(!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       

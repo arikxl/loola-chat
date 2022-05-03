@@ -14,6 +14,7 @@ import { ChatState } from '../../context/chatProvider';
 import AppProfileModal from '../app/AppProfileModal';
 import LoadingSkeleton from '../loaders/LoadingSkeleton';
 import UserItem from '../user/UserItem';
+import BearLoader from '../loaders/BearLoader';
 
 const ChatHeader = () => {
 
@@ -22,7 +23,7 @@ const ChatHeader = () => {
   const toast = useToast();
   const { user, setSelectedChat, chats, setChats } = ChatState();
   const { name, img, token, _id } = user;
-
+  // console.log('token:', token)
 
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -48,16 +49,17 @@ const ChatHeader = () => {
       return
     };
 
-    try {
+    try { 
       setIsLoading(true);
       const config = {
-        Headers: {
-          Authorization: `Bearer ${token}`,
+        headers: {
+          authorization: `Bearer ${token}`,
         }
       };
 
       const { data } = await axios.get(`/api/user?search=${search}`, config);
       setIsLoading(false);
+      setSearchResult(data);
       if (data.length === 0) {
         toast({
           title: 'אין חברים שמתאימים לחיפוש',
@@ -67,7 +69,6 @@ const ChatHeader = () => {
           position: 'bottom-right'
         });
       }
-      setSearchResult(data);
     } catch (error) {
       toast({
         title: 'שגיאה בחיפוש',
@@ -81,19 +82,19 @@ const ChatHeader = () => {
     }
   };
 
-  const accessChat = async (id) => {
-     console.log('id:', id)
+  const accessChat = async (userId) => {
      try {
       setLoadingChat(true);
 
       const config = {
-        Headers: {
+        headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          authorization: `Bearer ${token}`,
         }
       };
 
-      const {data} = await axios.post(`/api/chat`, { id }, config);
+      const {data} = await axios.post(`/api/chat`,  { userId } , config);
+      if(!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
 
       setSelectedChat(data);
       setLoadingChat(false);
@@ -178,7 +179,8 @@ const ChatHeader = () => {
                 ))
               )}
 
-              {loadingChat && <Spinner ml='auto' d='flex'/>}
+              {/* {loadingChat && <Spinner ml='auto' d='flex'/>} */}
+              {loadingChat && <BearLoader />}
           </DrawerBody>
 
           <DrawerFooter>
