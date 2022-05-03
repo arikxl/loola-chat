@@ -17,8 +17,8 @@ const ChatList = () => {
   const fetchChats = async () => {
     try {
       const config = {
-        Headers: {
-          Authorization: `Bearer ${token}`,
+        headers: {
+          authorization: `Bearer ${token}`,
         }
       };
       
@@ -28,7 +28,6 @@ const ChatList = () => {
       
       setChats(data);
     } catch (error) {
-      console.log('AAAA', error.message)
       toast({
         title: `שגיאה חמורה!`,
         status: 'error',
