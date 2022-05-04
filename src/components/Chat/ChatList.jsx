@@ -7,6 +7,7 @@ import LoadingSkeleton from '../loaders/LoadingSkeleton';
 import { ChatState } from '../../context/chatProvider';
 import { AddIcon } from '@chakra-ui/icons';
 import { getSender } from '../../utils/chatUtils';
+import GroupChatModal from './GroupChatModal';
 
 const ChatList = () => {
 
@@ -14,8 +15,7 @@ const ChatList = () => {
   const [loggedUser, setLoggedUser] = useState(null);
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const { name, img, token, _id } = user;
-  // console.log('token:', token)
-  // console.log('_id:', _id)
+
 
   const fetchChats = async () => {
     try {
@@ -54,14 +54,15 @@ const ChatList = () => {
       borderRadius='lg' borderWidth='1px' w={{ base: '100%', md: '30%' }}
     >
       <Box pb={3} px={3} fontSize={{ base: '28px', md: '30px' }} w='100%'
-        d='flex' justifyContent='space-between' alignItems='center'
-      >
+        d='flex' justifyContent='space-between' alignItems='center'>
         הצ'טים שלי
-        <Button d='flex' fontSize={{ base: '17px', md: '10px', lg: '17px' }}
-          leftIcon={<AddIcon />}
-        >
-          קבוצה חדשה
-        </Button>
+
+        <GroupChatModal>
+          <Button d='flex' fontSize={{ base: '17px', md: '10px', lg: '17px' }}
+            leftIcon={<AddIcon />}>
+            קבוצה חדשה
+          </Button>
+        </GroupChatModal>
       </Box>
 
       <Box d='flex' flexDir='column' p={3} bg='#F8F8F8'

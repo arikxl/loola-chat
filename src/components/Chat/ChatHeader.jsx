@@ -69,7 +69,7 @@ const ChatHeader = () => {
 
       const { data } = await axios.get(`/api/user?search=${search}`, config);
       setIsLoading(false);
-      setSearchResult(data);
+      setSearchResult(data.filter(u => u._id !== user._id));
       if (data.length === 0) {
         toast({
           title: 'אין חברים שמתאימים לחיפוש',
