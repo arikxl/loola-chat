@@ -53,7 +53,10 @@ const Login = () => {
       });
       localStorage.setItem('chatUserInfo', JSON.stringify(data));
       setLoading(false);
-      navigate('/chats');
+      setTimeout(() => {
+        navigate('/chats');
+        navigate(0);
+      } , 2000);
     }
     catch (err) {
       toast({

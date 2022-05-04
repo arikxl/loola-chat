@@ -36,6 +36,7 @@ const SignUp = () => {
       return
     };
 
+
     if (images.type === 'image/jpeg' || images.type === 'image/png') {
       const data = new FormData();
       data.append('file', images);
@@ -67,6 +68,16 @@ const SignUp = () => {
   };
 
   const handleSubmit =  async () => {
+    if ( !email.includes('@') || !email.includes('.') ) {
+      toast({
+        title: 'נא להזין כתובת אימייל תקינה',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      })
+      return
+    };
     setLoading(true);
     if(!name || !email || !password || !confirmPassword){
       toast({
@@ -107,7 +118,12 @@ const SignUp = () => {
 
       localStorage.setItem('chatUserInfo', JSON.stringify(data));
       setLoading(false);
-      navigate('/chats');
+
+      setTimeout(() => {
+        navigate('/chats');
+        navigate(0);
+        navigate(0);
+      } , 2000);
     } catch (error) {
       toast({
         title: 'הרישום לא הצליח',
@@ -131,11 +147,11 @@ const SignUp = () => {
         <Input placeholder='מה השם שלך?'
           onChange={(e) => setName(e.target.value)} />
       </FormControl>
-      <FormControl id='form_email' isRequired>
+      <FormControl id='form_email' isRequired type='email'>
         <FormLabel>
           כתובת מייל
         </FormLabel>
-        <Input placeholder='מה המייל שלך?' type='email'
+        <Input placeholder='מה המייל שלך?' type='email' isRequired
           onChange={(e) => setEmail(e.target.value)} />
       </FormControl>
 

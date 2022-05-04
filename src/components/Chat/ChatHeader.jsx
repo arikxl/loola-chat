@@ -40,8 +40,18 @@ const ChatHeader = () => {
   const handleSearch = async () => {
     if (!search || search.length < 2) {
       toast({
-        title: 'בבקשה לפחות 2 אותיות לחיפוש',
+        title: 'נשמה אני צריך לפחות 2 אותיות לחיפוש',
         status: 'warning',
+        duration: 4000,
+        isClosable: true,
+        position: 'top-right'
+      });
+      return
+    };
+    if (search==='com' || search==='.il' || search==='gmail' || search==='.co') {
+      toast({
+        title: `חיפוש לא חוקי יא צ'יטר/ית`,
+        status: 'error',
         duration: 4000,
         isClosable: true,
         position: 'top-right'
