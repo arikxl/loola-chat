@@ -34,7 +34,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                             : (
                                 <>
                                     {getSender(user, selectedChat.users)}
-                                    <AppProfileModal user={getFullSender(user, selectedChat.users)} />
+                                    <AppProfileModal user={getFullSender(user, selectedChat?.users)} />
                                 </>
                             )}
                     </Text>

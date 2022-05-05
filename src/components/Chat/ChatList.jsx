@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, Stack, Text, useToast } from '@chakra-ui/react';
+import { Avatar, Box, Button, Stack, Text, useToast } from '@chakra-ui/react';
 
 import LoadingSkeleton from '../loaders/LoadingSkeleton';
 
 import { ChatState } from '../../context/chatProvider';
 import { AddIcon } from '@chakra-ui/icons';
-import { getSender } from '../../utils/chatUtils';
+import { getFullSender, getSender, getSenderImg } from '../../utils/chatUtils';
 import GroupChatModal from '../groups/GroupChatModal';
 
-const ChatList = ({fetchAgain}) => {
+const ChatList = ({ fetchAgain }) => {
 
   const toast = useToast();
   const [loggedUser, setLoggedUser] = useState(null);
@@ -53,7 +53,7 @@ const ChatList = ({fetchAgain}) => {
       flexDir='column' alignItems='center' p={3} bg='white'
       borderRadius='lg' borderWidth='1px' w={{ base: '100%', md: '30%' }}
     >
-      <Box pb={3} px={3} fontSize={{ base: '28px', md: '30px' }} w='100%' 
+      <Box pb={3} px={3} fontSize={{ base: '28px', md: '30px' }} w='100%'
         d='flex' justifyContent='space-between' alignItems='center'>
         הצ'טים שלי
 
@@ -67,16 +67,21 @@ const ChatList = ({fetchAgain}) => {
 
       <Box d='flex' flexDir='column' p={3} bg='#F8F8F8'
         w='100%' h='100%' borderRadius='lg' overflowY='hidden'
-      >{chats.length ===0 && <Text>טיפה סבלנות...</Text>}
+      >{chats.length === 0 && <Text>טיפה סבלנות...</Text>}
         {chats
           ? (
             <Stack overflowY='scroll'>
               {chats.map((chat) => (
                 <Box key={chat._id} onClick={() => setSelectedChat(chat)}
-                  cursor='pointer' px={3} py={2} borderRadius='lg'
+                  cursor='pointer' px={3} py={2} borderRadius='lg' d='flex'
                   bg={selectedChat === chat ? 'goldenrod' : '#E8E8E8'}
                   color={selectedChat === chat ? 'white' : 'black'}
                 >
+                  <Avatar src={!chat.isGroupChat
+                    ? getSenderImg(user, chat?.users)
+                    || `https://robohash.org/${getFullSender(user, chat?.users)._id}?set=set4`
+                    : `https://avatars.dicebear.com/api/initials/${chat.chatName}.svg`}
+                    size='sm' ml={3}/>
                   <Text>
                     {!chat.isGroupChat
                       ? getSender(loggedUser, chat.users)
