@@ -11,7 +11,6 @@ function App() {
     <div className="App">
 
     <Routes>
-      LOOLA
       <Route path="/" element={<HomePage />}/>
       <Route path="/chats" element={<ChatPage />}/>
     </Routes>

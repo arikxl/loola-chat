@@ -8,8 +8,6 @@ import {
   VStack
 } from '@chakra-ui/react';
 
-
-
 const Login = () => {
   const toast = useToast();
   const navigate = useNavigate();
@@ -19,7 +17,6 @@ const Login = () => {
 
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-
 
   const handleSubmit = async () => {
     setLoading(true);

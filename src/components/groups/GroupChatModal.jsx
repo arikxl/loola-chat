@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { useDisclosure } from '@chakra-ui/hooks';
 import {
     Button, Modal, ModalBody, ModalCloseButton, useToast,
-    ModalContent, ModalFooter, ModalHeader, ModalOverlay, FormControl, Input, Box
+    ModalContent, ModalFooter, ModalHeader, ModalOverlay,
+    FormControl, Input, Box
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { ChatState } from '../../context/chatProvider';
-import axios from 'axios';
+
 import UserItem from '../user/UserItem';
 import UserBadgeItem from '../user/UserBadgeItem';
-
-
+import { ChatState } from '../../context/chatProvider';
 
 const GroupChatModal = ({ children }) => {
 
@@ -24,7 +23,6 @@ const GroupChatModal = ({ children }) => {
 
     const { user, chats, setChats } = ChatState();
     const { token } = user;
-
 
     const handleSearch = async (query) => {
         setSearch(query);
@@ -50,11 +48,11 @@ const GroupChatModal = ({ children }) => {
                 isClosable: true,
                 position: 'bottom-left',
             })
-        }
+        };
     };
 
     const handleSubmit = async () => {
-        if(!groupChatName || groupChatName.length < 3) {
+        if (!groupChatName || groupChatName.length < 3) {
             toast({
                 title: 'קבוצה מגניבה חייבת שם מגניב',
                 status: 'error',
@@ -64,7 +62,7 @@ const GroupChatModal = ({ children }) => {
             })
             return;
         };
-        if(!selectedUsers || selectedUsers.length < 2) {
+        if (!selectedUsers || selectedUsers.length < 2) {
             toast({
                 title: 'אין קבוצה בלי חברים',
                 status: 'error',
@@ -76,7 +74,6 @@ const GroupChatModal = ({ children }) => {
         };
 
         try {
-            
             const config = {
                 headers: {
                     authorization: `Bearer ${token}`
@@ -95,7 +92,7 @@ const GroupChatModal = ({ children }) => {
                 status: 'success',
                 duration: 5000,
                 isClosable: true,
-                position: 'bottom-right',  
+                position: 'bottom-right',
             });
         } catch (error) {
             toast({
@@ -105,8 +102,7 @@ const GroupChatModal = ({ children }) => {
                 isClosable: true,
                 position: 'bottom-right',
             });
-        }
-
+        };
     };
 
     const handleGroup = (userToAdd) => {
@@ -130,7 +126,6 @@ const GroupChatModal = ({ children }) => {
     return (
         <>
             <span onClick={onOpen}>{children}</span>
-
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -163,7 +158,6 @@ const GroupChatModal = ({ children }) => {
                             )}
 
                     </ModalBody>
-
                     <ModalFooter>
                         <Button colorScheme='orange' onClick={handleSubmit}>
                             תהנו!
@@ -172,7 +166,7 @@ const GroupChatModal = ({ children }) => {
                 </ModalContent>
             </Modal>
         </>
-    )
-}
+    );
+};
 
-export default GroupChatModal
+export default GroupChatModal;

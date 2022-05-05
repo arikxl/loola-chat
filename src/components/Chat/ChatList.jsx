@@ -7,9 +7,9 @@ import LoadingSkeleton from '../loaders/LoadingSkeleton';
 import { ChatState } from '../../context/chatProvider';
 import { AddIcon } from '@chakra-ui/icons';
 import { getSender } from '../../utils/chatUtils';
-import GroupChatModal from './GroupChatModal';
+import GroupChatModal from '../groups/GroupChatModal';
 
-const ChatList = () => {
+const ChatList = ({fetchAgain}) => {
 
   const toast = useToast();
   const [loggedUser, setLoggedUser] = useState(null);
@@ -45,7 +45,7 @@ const ChatList = () => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem('chatUserInfo')));
     fetchChats();
-  }, []);
+  }, [fetchAgain]);
 
 
   return (
@@ -53,7 +53,7 @@ const ChatList = () => {
       flexDir='column' alignItems='center' p={3} bg='white'
       borderRadius='lg' borderWidth='1px' w={{ base: '100%', md: '30%' }}
     >
-      <Box pb={3} px={3} fontSize={{ base: '28px', md: '30px' }} w='100%'
+      <Box pb={3} px={3} fontSize={{ base: '28px', md: '30px' }} w='100%' 
         d='flex' justifyContent='space-between' alignItems='center'>
         הצ'טים שלי
 

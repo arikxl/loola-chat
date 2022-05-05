@@ -4,7 +4,7 @@ import {
   Avatar, Box, Button, Drawer, DrawerBody, DrawerContent,
   DrawerFooter, DrawerHeader, DrawerOverlay, Input, Menu,
   MenuButton, MenuDivider,
-  MenuItem, MenuList, Spinner, Text, Tooltip, useToast,
+  MenuItem, MenuList, Text, Tooltip, useToast,
 } from '@chakra-ui/react';
 import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { useDisclosure } from '@chakra-ui/hooks';
@@ -125,7 +125,7 @@ const ChatHeader = () => {
   return (
     <>
       <Box d='flex' justifyContent='space-between' alignItems='center'
-        bg='white' w='100%' p='5px 10px' borderWidth='3px'>
+        bg='white' w='100%' p='5px 10px' >
         <Tooltip label='חיפוש חברים' hasArrow placement='bottom-end'>
           <Button variant='ghost' onClick={onOpen}>
             <i className="fa-solid fa-magnifying-glass"></i>
@@ -145,7 +145,7 @@ const ChatHeader = () => {
             {/* <MunuList></MunuList> */}
           </Menu>
 
-          <Menu>
+          <Menu >
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
               <Avatar size='sm' cursor='pointer' name={name}
                 src={img || `https://robohash.org/${_id}?set=set4`} />

@@ -42,7 +42,7 @@ const AppProfileModal = ({ user, children }) => {
 
                     <ModalFooter>
                         <Button colorScheme='orange' mr={3} onClick={onClose} >
-                            Close
+                            סגירה
                         </Button>
                     </ModalFooter>
                 </ModalContent>
