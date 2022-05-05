@@ -15,6 +15,8 @@ import AppProfileModal from '../app/AppProfileModal';
 import LoadingSkeleton from '../loaders/LoadingSkeleton';
 import UserItem from '../user/UserItem';
 import BearLoader from '../loaders/BearLoader';
+import { getConfig } from '../../utils/chatUtils';
+
 
 const ChatHeader = () => {
 
@@ -23,7 +25,7 @@ const ChatHeader = () => {
   const toast = useToast();
   const { user, setSelectedChat, chats, setChats } = ChatState();
   const { name, img, token, _id } = user;
-  // console.log('token:', token)
+  const config = getConfig(token);
 
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -61,11 +63,6 @@ const ChatHeader = () => {
 
     try { 
       setIsLoading(true);
-      const config = {
-        headers: {
-          authorization: `Bearer ${token}`,
-        }
-      };
 
       const { data } = await axios.get(`/api/user?search=${search}`, config);
       setIsLoading(false);

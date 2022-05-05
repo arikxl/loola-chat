@@ -67,7 +67,7 @@ const ChatList = ({fetchAgain}) => {
 
       <Box d='flex' flexDir='column' p={3} bg='#F8F8F8'
         w='100%' h='100%' borderRadius='lg' overflowY='hidden'
-      >
+      >{chats.length ===0 && <Text>טיפה סבלנות...</Text>}
         {chats
           ? (
             <Stack overflowY='scroll'>
