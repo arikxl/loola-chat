@@ -41,13 +41,13 @@ const ChatHeader = () => {
 
   const handleSearch = async () => {
     if (!search || search.length < 2) {
-      toast({
-        title: 'נשמה אני צריך לפחות 2 אותיות לחיפוש',
-        status: 'warning',
-        duration: 4000,
-        isClosable: true,
-        position: 'top-right'
-      });
+      // toast({
+      //   title: 'נשמה אני צריך לפחות 2 אותיות לחיפוש',
+      //   status: 'warning',
+      //   duration: 4000,
+      //   isClosable: true,
+      //   position: 'top-right'
+      // });
       return
     };
     if (search==='com' || search==='.il' || search==='gmail' || search==='.co') {
@@ -174,7 +174,7 @@ const ChatHeader = () => {
 
           <DrawerBody>
             <Box d='flex' pb={2}>
-                <Input placeholder='חיפוש לפי שם או אימייל'
+                <Input placeholder='חיפוש לפי שם או אימייל' onKeyDown={handleSearch}
                   ml={3} value={search} onChange={(e) => setSearch(e.target.value)} />
                 <Button onClick={handleSearch}>GO</Button>
             </Box>
