@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import io from 'socket.io-client';
 import axios from 'axios';
 import {
     Box, FormControl, IconButton, Input,
@@ -15,6 +16,10 @@ import {
     getSender, getFullSender, getConfigWithJson, getConfig
 } from '../../utils/chatUtils';
 
+const ENDPOINT = 'http://localhost:3000';
+var socket, selectedChatCompare;
+
+
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
     const { user, selectedChat, setSelectedChat } = ChatState();
@@ -22,7 +27,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     const configWithJson = getConfigWithJson(user.token);
 
     const [messages, setMessages] = useState([]);
+    const [typing, setTyping] = useState(false);
+    const [isTyping, setIsTyping] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isSocketConnected, setIsSocketConnected] = useState(false);
     const [newMessage, setNewMessage] = useState('');
 
     const fetchMessages = async () => {
@@ -34,6 +42,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
             setMessages(data);
             setIsLoading(false);
+
+            socket.emit('join chat', selectedChat._id);
         } catch (error) {
             toast({
                 title: 'אין אפשרות לטעון הודעות',
@@ -56,7 +66,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     chatId: selectedChat._id,
                 }, config);
 
-                console.log('data:', data)
+                socket.emit('new message', data);
+
                 setMessages([...messages, data]);
             } catch (error) {
                 toast({
@@ -73,11 +84,35 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     const typingHandler = (e) => {
         setNewMessage(e.target.value);
 
+        if(!isSocketConnected) return;
+
+        
     };
 
     useEffect(() => {
         fetchMessages();
+
+        selectedChatCompare = selectedChat;
     }, [selectedChat]);
+
+    useEffect(() => {
+        socket = io(ENDPOINT);
+        socket.emit('setup', user);
+        socket.on('connection', () => setIsSocketConnected(true));
+        socket.on('typing', () => setIsTyping(true))
+        socket.on('stop typing', () => setIsTyping(false))
+    }, [])
+
+    useEffect(() => {
+        socket.on('message recieved', (newMessageRecieved) => {
+            if (!selectedChatCompare
+                || selectedChatCompare._id !== newMessageRecieved.chat._id) {
+
+            } else {
+                setMessages([...messages, newMessageRecieved]);
+            }
+        });
+    })
 
     return (
         <>
