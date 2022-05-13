@@ -16,14 +16,17 @@ import LoadingSkeleton from '../loaders/LoadingSkeleton';
 import UserItem from '../user/UserItem';
 import BearLoader from '../loaders/BearLoader';
 import { getConfig } from '../../utils/chatUtils';
+import { getSender } from '../../utils/chatUtils'
 
 
 const ChatHeader = () => {
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const navigate = useNavigate();
   const toast = useToast();
-  const { user, setSelectedChat, chats, setChats } = ChatState();
+  const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { user, setSelectedChat, chats, setChats,
+    notifications, setNotifications
+  } = ChatState();
   const { name, img, token, _id } = user;
   const config = getConfig(token);
 
@@ -132,7 +135,20 @@ const ChatHeader = () => {
             <MenuButton p={1}>
               <BellIcon fontSize='2xl' m='1' />
             </MenuButton>
-            {/* <MunuList></MunuList> */}
+            <MenuList pr={3}>
+              {!notifications.length && ' 🧡 אין הודעות חדשות 🧡'}
+              {notifications?.map((n) => (
+                <MenuItem key={n._id} onClick={() => {
+                  setSelectedChat(n.chat);
+                  setNotifications(notifications.filter((not) => not !== n));
+                }}>
+                  {n.chat.isGroupChat
+                    ? `הודעה חדשה ב${n.chat.name}`
+                    : `הודעה חדשה מ${getSender(user, n.chat.users)}`
+                  }
+                </MenuItem>
+              ))}
+            </MenuList>
           </Menu>
 
           <Menu >
@@ -184,7 +200,8 @@ const ChatHeader = () => {
           </DrawerBody>
 
           <DrawerFooter>
-            <Button variant='outline' ml={3} onClick={onClose}>
+            <Button variant='outline' ml={3} onClick={onClose}
+              backgroundColor='orange'>
               סגירה
             </Button>
           </DrawerFooter>

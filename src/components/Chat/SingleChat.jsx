@@ -22,7 +22,7 @@ var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
-    const { user, selectedChat, setSelectedChat } = ChatState();
+    const { user, selectedChat, setSelectedChat, notifications, setNotifications } = ChatState();
     const config = getConfig(user.token);
     const configWithJson = getConfigWithJson(user.token);
 
@@ -129,8 +129,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     useEffect(() => {
         socket.on('message recieved', (newMessageRecieved) => {
             if (!selectedChatCompare
-                || selectedChatCompare._id !== newMessageRecieved.chat._id) {
-
+                || selectedChatCompare._id !== newMessageRecieved.chat._id)
+                 {
+                    if(!notifications.includes(newMessageRecieved)){
+                        setNotifications([newMessageRecieved, ...notifications]);
+                        setFetchAgain(!fetchAgain);
+                    }
             } else {
                 setMessages([...messages, newMessageRecieved]);
             }

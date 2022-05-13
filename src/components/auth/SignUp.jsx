@@ -11,14 +11,13 @@ import {
 
 const SignUp = () => {
 
+  const [img, setImg] = useState('');
+  const [show, setShow] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [img, setImg] = useState('');
-
-  const [show, setShow] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -35,7 +34,6 @@ const SignUp = () => {
       })
       return
     };
-
 
     if (images.type === 'image/jpeg' || images.type === 'image/png') {
       const data = new FormData();
@@ -122,7 +120,6 @@ const SignUp = () => {
       setTimeout(() => {
         navigate('/chats');
         navigate(0);
-        navigate(0);
       } , 2000);
     } catch (error) {
       toast({
@@ -136,7 +133,6 @@ const SignUp = () => {
       setLoading(false);
     }
   }
-
 
   return (
     <VStack spacing={'5px'}>
