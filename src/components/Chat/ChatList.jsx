@@ -15,7 +15,7 @@ const ChatList = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState(null);
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const { name, img, token, _id } = user;
-
+  
 
   const fetchChats = async () => {
     try {
@@ -46,7 +46,6 @@ const ChatList = ({ fetchAgain }) => {
     setLoggedUser(JSON.parse(localStorage.getItem('chatUserInfo')));
     fetchChats();
   }, [fetchAgain]);
-
 
   return (
     <Box d={{ base: selectedChat ? 'none' : 'flex', md: 'flex' }}
@@ -81,12 +80,21 @@ const ChatList = ({ fetchAgain }) => {
                     ? getSenderImg(user, chat?.users)
                     || `https://robohash.org/${getFullSender(user, chat?.users)._id}?set=set4`
                     : `https://avatars.dicebear.com/api/initials/${chat.chatName}.svg`}
-                    size='sm' ml={3}/>
+                    size='sm' ml={3} />
                   <Text>
                     {!chat.isGroupChat
                       ? getSender(loggedUser, chat.users)
-                      : chat.chatName}
+                      : chat.chatName.substring(0, 25) + "..."}
                   </Text>
+                  <br />
+                  {chat.lastMessage && (
+                    <Text fontSize="xs">
+                      <b>{chat.lastMessage.sender.name} &nbsp; </b>
+                      {chat.lastMessage.content.length > 30
+                        ? chat.lastMessage.content.substring(0, 30) + "..."
+                        : chat.lastMessage.content}
+                    </Text>
+                  )}
                 </Box>
               ))}
             </Stack>

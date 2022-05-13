@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {
   Avatar, Box, Button, Drawer, DrawerBody, DrawerContent,
@@ -6,9 +7,9 @@ import {
   MenuButton, MenuDivider,
   MenuItem, MenuList, Text, Tooltip, useToast,
 } from '@chakra-ui/react';
-import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { useDisclosure } from '@chakra-ui/hooks';
-import axios from 'axios';
+import  NotificationBadge, {Effect}  from 'react-notification-badge'
+import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons';
 
 import { ChatState } from '../../context/chatProvider';
 import AppProfileModal from '../app/AppProfileModal';
@@ -133,6 +134,8 @@ const ChatHeader = () => {
         <div>
           <Menu>
             <MenuButton p={1}>
+              <NotificationBadge count={notifications.length}
+              effect={Effect.SCALE} />
               <BellIcon fontSize='2xl' m='1' />
             </MenuButton>
             <MenuList pr={3}>
