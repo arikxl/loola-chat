@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Lottie from 'react-lottie';
 import io from 'socket.io-client';
 import axios from 'axios';
 import {
@@ -7,10 +8,10 @@ import {
 } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
-
 import ScrollableChat from './ScrollableChat';
 import AppProfileModal from '../app/AppProfileModal';
 import UpdateGroupModal from '../groups/UpdateGroupModal';
+import animationData from '../loaders/12966-typing-indicator.json';
 import { ChatState } from '../../context/chatProvider';
 import {
     getSender, getFullSender, getConfigWithJson, getConfig
@@ -18,7 +19,6 @@ import {
 
 const ENDPOINT = 'http://localhost:3000';
 var socket, selectedChatCompare;
-
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
@@ -56,8 +56,18 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         };
     };
 
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        },
+    };
+
     const sendMessage = async (e) => {
         if (e.key === 'Enter' && newMessage) {
+            socket.emit('stop typing', selectedChat._id);
             const config = configWithJson;
             try {
                 setNewMessage('');
@@ -84,9 +94,22 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     const typingHandler = (e) => {
         setNewMessage(e.target.value);
 
-        if(!isSocketConnected) return;
+        if (!isSocketConnected) return;
 
-        
+        if (!typing) {
+            setTyping(true);
+            socket.emit('typing', selectedChat._id);
+        }
+        let lastTypingTime = new Date().getTime();
+        setTimeout(() => {
+            var timeNow = new Date().getTime();
+            var timeDiff = timeNow - lastTypingTime;
+
+            if (timeDiff >= 3000 && typing) {
+                socket.emit('stop typing', selectedChat._id);
+                setTyping(false);
+            }
+        }, 3000)
     };
 
     useEffect(() => {
@@ -98,7 +121,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     useEffect(() => {
         socket = io(ENDPOINT);
         socket.emit('setup', user);
-        socket.on('connection', () => setIsSocketConnected(true));
+        socket.on('connected', () => setIsSocketConnected(true));
         socket.on('typing', () => setIsTyping(true))
         socket.on('stop typing', () => setIsTyping(false))
     }, [])
@@ -153,6 +176,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                             </div>
                         )}
                         <FormControl onKeyDown={sendMessage} required mt={3}>
+                            {isTyping && (
+                                <div><Lottie width={70}
+                                    style={{ marginBottom: 15, marginRight: 0 }}
+                                    options={defaultOptions}
+                                />
+                                </div>
+                            )}
                             <Input placeholder='כאן כותבים ...' bg='#E0E0E0'
                                 variant='filled' onChange={typingHandler}
                                 value={newMessage}
@@ -174,6 +204,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
         </>
     )
-}
+};
 
-export default SingleChat
+export default SingleChat;
