@@ -16,7 +16,7 @@ import Loader from '../loaders/Loader';
 import UserItem from '../user/UserItem';
 
 
-const UpdateGroupModal = ({ fetchAgain, setFetchAgain }) => {
+const UpdateGroupModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
 
     const toast = useToast();
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -38,6 +38,7 @@ const UpdateGroupModal = ({ fetchAgain, setFetchAgain }) => {
             }, config);
             userToDelete._id === user._id ? setSelectedChat(null) : setSelectedChat(data);
             setFetchAgain(!fetchAgain);
+            fetchMessages();
             setIsLoading(false);
         } catch (error) {
             toast({
