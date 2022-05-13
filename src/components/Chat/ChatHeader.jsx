@@ -39,29 +39,22 @@ const ChatHeader = () => {
     }
   };
 
-  const handleSearch = async () => {
-    if (!search || search.length < 2) {
-      // toast({
-      //   title: 'נשמה אני צריך לפחות 2 אותיות לחיפוש',
-      //   status: 'warning',
-      //   duration: 4000,
-      //   isClosable: true,
-      //   position: 'top-right'
-      // });
-      return
-    };
-    if (search==='com' || search==='.il' || search==='gmail' || search==='.co') {
-      toast({
-        title: `חיפוש לא חוקי יא צ'יטר/ית`,
-        status: 'error',
-        duration: 4000,
-        isClosable: true,
-        position: 'top-right'
-      });
-      return
+  const handleSearch = async (e) => {
+    if (e.key === 'Enter' && search && search.length > 1) {
+
+      if (search === 'com' || search === '.il' || search === 'gmail' || search === '.co') {
+        toast({
+          title: `חיפוש לא חוקי יא צ'יטר/ית`,
+          status: 'error',
+          duration: 4000,
+          isClosable: true,
+          position: 'top-right'
+        });
+        return
+      }
     };
 
-    try { 
+    try {
       setIsLoading(true);
 
       const { data } = await axios.get(`/api/user?search=${search}`, config);
@@ -90,7 +83,7 @@ const ChatHeader = () => {
   };
 
   const accessChat = async (userId) => {
-     try {
+    try {
       setLoadingChat(true);
 
       const config = {
@@ -100,13 +93,13 @@ const ChatHeader = () => {
         }
       };
 
-      const {data} = await axios.post(`/api/chat`,  { userId } , config);
-      if(!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      const { data } = await axios.post(`/api/chat`, { userId }, config);
+      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
 
       setSelectedChat(data);
       setLoadingChat(false);
       onClose();
-     } catch (error) {
+    } catch (error) {
       toast({
         title: `שגיאה בחיבור לצ'ט`,
         status: 'error',
@@ -115,7 +108,7 @@ const ChatHeader = () => {
         isClosable: true,
         position: 'bottom-right'
       });
-     }
+    }
   };
 
 
@@ -174,9 +167,9 @@ const ChatHeader = () => {
 
           <DrawerBody>
             <Box d='flex' pb={2}>
-                <Input placeholder='חיפוש לפי שם או אימייל' onKeyDown={handleSearch}
-                  ml={3} value={search} onChange={(e) => setSearch(e.target.value)} />
-                <Button onClick={handleSearch}>GO</Button>
+              <Input placeholder='חיפוש לפי שם או אימייל' onKeyDown={handleSearch}
+                ml={3} value={search} onChange={(e) => setSearch(e.target.value)} />
+              <Button onClick={handleSearch}>GO</Button>
             </Box>
             {isLoading ? <LoadingSkeleton />
               : (
@@ -186,8 +179,8 @@ const ChatHeader = () => {
                 ))
               )}
 
-              {/* {loadingChat && <Spinner ml='auto' d='flex'/>} */}
-              {loadingChat && <BearLoader />}
+            {/* {loadingChat && <Spinner ml='auto' d='flex'/>} */}
+            {loadingChat && <BearLoader />}
           </DrawerBody>
 
           <DrawerFooter>

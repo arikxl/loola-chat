@@ -15,3 +15,10 @@ export const getConfig =(token)=> {
         authorization: `Bearer ${token}`
     }}
 };
+
+export const getConfigWithJson =(token)=> {
+    return {headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${token}`
+    }}
+};

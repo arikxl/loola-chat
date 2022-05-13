@@ -1,28 +1,79 @@
 import React, { useState } from 'react';
-import { Box, FormControl, IconButton, Input, Spinner, Text } from '@chakra-ui/react';
+import { Box, FormControl, IconButton, Input, Spinner, Text, toast } from '@chakra-ui/react';
 
 import { ChatState } from '../../context/chatProvider';
-import { getSender, getFullSender } from '../../utils/chatUtils';
+import { getSender, getFullSender, getConfigWithJson, getConfig } from '../../utils/chatUtils';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import AppProfileModal from '../app/AppProfileModal';
 import UpdateGroupModal from '../groups/UpdateGroupModal';
 import Loader from '../loaders/Loader';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
     const { user, selectedChat, setSelectedChat } = ChatState();
+    const configWithJson = getConfigWithJson(user.token);
+    const config = getConfig(user.token);
 
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [newMessage, setNewMessage] = useState('');
 
-    const sendMessage = () => {
+    const fetchMessages = async () => {
+        if (!selectedChat) return;
+
+        try {
+            setIsLoading(true);
+            const { data } = await axios.get(`/api/message/${selectedChat._id}`, config);
+            
+            setMessages(data);
+            console.log('data:', messages)
+            setIsLoading(false);
+        } catch (error) {
+            toast({
+                title: 'אין אפשרות לטעון הודעות',
+                description: error.response.data.message,
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+                position: 'bottom',
+            });
+        };
+    };
+
+    const sendMessage = async (e) => {
+        if (e.key === 'Enter' && newMessage) {
+            const config = configWithJson;
+            try {
+                setNewMessage('');
+                const { data } = await axios.post(`/api/message`, {
+                    content: newMessage,
+                    chatId: selectedChat._id,
+                }, config);
+
+                console.log('data:', data)
+                setMessages([...messages, data]);
+            } catch (error) {
+                toast({
+                    title: 'שליחת הודעה נכשלה',
+                    status: 'error',
+                    duration: 4000,
+                    isClosable: true,
+                    position: 'bottom'
+                })
+            }
+        };
+    };
+
+    const typingHandler = (e) => {
+        setNewMessage(e.target.value);
 
     };
 
-    const typingHandler = () => {
-
-    };
+    useEffect(() => {
+        fetchMessages();
+    }, [selectedChat]);
 
     return (
         <>
