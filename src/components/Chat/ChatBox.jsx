@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Avatar, Box, Button, Drawer, DrawerBody, DrawerContent,
-  DrawerFooter, DrawerHeader, DrawerOverlay, Input, Menu,
-  MenuButton, MenuDivider,
-  MenuItem, MenuList, Spinner, Text, Tooltip, useToast,
-} from '@chakra-ui/react';
-
+import { Box } from '@chakra-ui/react';
 
 import { ChatState } from '../../context/chatProvider'
 import SingleChat from './SingleChat';
@@ -21,7 +15,7 @@ const ChatBox = ({fetchAgain, setFetchAgain}) => {
     >
       <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}/>
     </Box>
-  )
-}
+  );
+};
 
-export default ChatBox
+export default ChatBox;

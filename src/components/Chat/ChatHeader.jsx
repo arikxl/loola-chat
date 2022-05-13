@@ -16,8 +16,7 @@ import AppProfileModal from '../app/AppProfileModal';
 import LoadingSkeleton from '../loaders/LoadingSkeleton';
 import UserItem from '../user/UserItem';
 import BearLoader from '../loaders/BearLoader';
-import { getConfig } from '../../utils/chatUtils';
-import { getSender } from '../../utils/chatUtils'
+import { getConfig, getSender } from '../../utils/chatUtils';
 
 
 const ChatHeader = () => {
@@ -42,7 +41,7 @@ const ChatHeader = () => {
       navigate('/');
     }
   };
-
+  
   const handleSearch = async (e) => {
     if (e.key === 'Enter' && search && search.length > 1) {
 
@@ -146,7 +145,7 @@ const ChatHeader = () => {
                   setNotifications(notifications.filter((not) => not !== n));
                 }}>
                   {n.chat.isGroupChat
-                    ? `הודעה חדשה ב${n.chat.name}`
+                    ? `הודעה חדשה ב${n.chat.chatName}`
                     : `הודעה חדשה מ${getSender(user, n.chat.users)}`
                   }
                 </MenuItem>

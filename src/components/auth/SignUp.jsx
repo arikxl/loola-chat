@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
 import {
   Button, FormControl, FormLabel,
   Input, InputGroup, InputLeftElement,
@@ -24,16 +23,6 @@ const SignUp = () => {
 
   const postDetails = (images) => {
     setLoading(true);
-    if (images === undefined) {
-      toast({
-        title: 'נא להעלות תמונה',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-        position: 'top',
-      })
-      return
-    };
 
     if (images.type === 'image/jpeg' || images.type === 'image/png') {
       const data = new FormData();
@@ -56,7 +45,7 @@ const SignUp = () => {
       toast({
         title: 'נא להעלות תמונה מסוג jpeg או png',
         status: 'error',
-        duration: 5000,
+        duration: 4000,
         isClosable: true,
         position: 'top',
       });
@@ -138,7 +127,7 @@ const SignUp = () => {
     <VStack spacing={'5px'}>
       <FormControl id='userName' isRequired>
         <FormLabel>
-          שם משתמש.ת
+          השם שלך
         </FormLabel>
         <Input placeholder='מה השם שלך?'
           onChange={(e) => setName(e.target.value)} />
@@ -188,13 +177,11 @@ const SignUp = () => {
         <Input type='file' p={1.5} accept={'image/*'}
           onChange={(e) => postDetails(e.target.files[0])} />
       </FormControl>
-
       <Button colorScheme={'orange'} width='100%'
         style={{ marginTop: 15 }} onClick={handleSubmit}
         isLoading = {loading}>
         רישום לצ'ט
       </Button>
-
     </VStack>
   );
 };

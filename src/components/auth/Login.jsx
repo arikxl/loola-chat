@@ -14,7 +14,6 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -53,7 +52,7 @@ const Login = () => {
       setTimeout(() => {
         navigate('/chats');
         navigate(0);
-      } , 2000);
+      } , 1000);
     }
     catch (err) {
       toast({
@@ -82,7 +81,7 @@ const Login = () => {
 
       <FormControl id='password' isRequired>
         <FormLabel>סיסמא</FormLabel>
-        <InputGroup >
+        <InputGroup>
           <InputLeftElement width={'4.5rem'}>
             <Button h="1.75rem" size={'sm'} w={'3rem'}
               onClick={() => setShow(!show)}>
@@ -101,14 +100,12 @@ const Login = () => {
         style={{ marginTop: 15 }} onClick={handleSubmit}>
         התחברות לצ'ט
       </Button>
-
-      <Button colorScheme={'red'} width='100%'
+      {/* <Button colorScheme={'red'} width='100%'
         variant={'solid'} isLoading={loading}
         style={{ marginTop: 15 }}
         onClick={() => { setEmail('guest@example.com'); setPassword('123456'); }}>
         התחברות לצ'ט כאורח.ת
-      </Button>
-
+      </Button> */}
     </VStack>
   );
 };
