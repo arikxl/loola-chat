@@ -1,30 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Avatar, Box, Button, Stack, Text, useToast } from '@chakra-ui/react';
+import { Avatar, Box, Stack, Text, useToast } from '@chakra-ui/react';
 
 import LoadingSkeleton from '../loaders/LoadingSkeleton';
-
 import { ChatState } from '../../context/chatProvider';
-import { AddIcon } from '@chakra-ui/icons';
-import { getFullSender, getSender, getSenderImg } from '../../utils/chatUtils';
-import GroupChatModal from '../groups/GroupChatModal';
+import { getConfig, getFullSender, getSender, getSenderImg } from '../../utils/chatUtils';
 
 const ChatList = ({ fetchAgain }) => {
 
   const toast = useToast();
   const [loggedUser, setLoggedUser] = useState(null);
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
-  const { name, img, token, _id } = user;
-  
+  const config = getConfig(user.token);
 
   const fetchChats = async () => {
     try {
-      const config = {
-        headers: {
-          authorization: `Bearer ${token}`,
-        }
-      };
-
       const { data } = await axios.get('/api/chat', config);
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
@@ -52,21 +42,10 @@ const ChatList = ({ fetchAgain }) => {
       flexDir='column' alignItems='center' p={3} bg='white'
       borderRadius='lg' borderWidth='1px' w={{ base: '100%', md: '30%' }}
     >
-      <Box pb={3} px={3} fontSize={{ base: '28px', md: '30px' }} w='100%'
-        d='flex' justifyContent='space-between' alignItems='center'>
-        הצ'טים שלי
-
-        <GroupChatModal>
-          <Button d='flex' fontSize={{ base: '17px', md: '10px', lg: '17px' }}
-            leftIcon={<AddIcon />}>
-            קבוצה חדשה
-          </Button>
-        </GroupChatModal>
-      </Box>
 
       <Box d='flex' flexDir='column' p={3} bg='#F8F8F8'
         w='100%' h='100%' borderRadius='lg' overflowY='hidden'
-      >{chats.length === 0 && <Text>טיפה סבלנות...</Text>}
+      >{chats.length === 0 && <Text>עם מי נתכתב?</Text>}
         {chats
           ? (
             <Stack overflowY='scroll'>
@@ -86,7 +65,6 @@ const ChatList = ({ fetchAgain }) => {
                       ? getSender(loggedUser, chat.users)
                       : chat.chatName.substring(0, 25) + "..."}
                   </Text>
-                  <br />
                   {chat.lastMessage && (
                     <Text fontSize="xs">
                       <b>{chat.lastMessage.sender.name} &nbsp; </b>
@@ -99,14 +77,11 @@ const ChatList = ({ fetchAgain }) => {
               ))}
             </Stack>
           )
-          : (
-            <LoadingSkeleton />
-          )
+          : (<LoadingSkeleton />)
         }
       </Box>
-
     </Box>
-  )
-}
+  );
+};
 
-export default ChatList
+export default ChatList;

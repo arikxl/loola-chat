@@ -17,7 +17,8 @@ import {
     getSender, getFullSender, getConfigWithJson, getConfig
 } from '../../utils/chatUtils';
 
-const ENDPOINT = 'http://localhost:3000';
+// const ENDPOINT = 'http://localhost:5000';
+const ENDPOINT = 'https://loola-chat.herokuapp.com/';
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -129,12 +130,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     useEffect(() => {
         socket.on('message recieved', (newMessageRecieved) => {
             if (!selectedChatCompare
-                || selectedChatCompare._id !== newMessageRecieved.chat._id)
-                 {
-                    if(!notifications.includes(newMessageRecieved)){
-                        setNotifications([newMessageRecieved, ...notifications]);
-                        setFetchAgain(!fetchAgain);
-                    }
+                || selectedChatCompare._id !== newMessageRecieved.chat._id) {
+                if (!notifications.includes(newMessageRecieved)) {
+                    setNotifications([newMessageRecieved, ...notifications]);
+                    setFetchAgain(!fetchAgain);
+                }
             } else {
                 setMessages([...messages, newMessageRecieved]);
             }
@@ -154,31 +154,26 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                             onClick={() => setSelectedChat('')} />
 
                         {selectedChat.isGroupChat
-                            ? (
-                                <>
-                                    {selectedChat.chatName.toUpperCase()}
-                                    <UpdateGroupModal fetchAgain={fetchAgain}
-                                        setFetchAgain={setFetchAgain}
-                                        fetchMessages={fetchMessages} />
-                                </>
-                            )
-                            : (
-                                <>
-                                    {getSender(user, selectedChat.users)}
-                                    <AppProfileModal user={getFullSender(user, selectedChat?.users)} />
-                                </>
-                            )}
+                            ? (<>
+                                {selectedChat.chatName.toUpperCase()}
+                                <UpdateGroupModal fetchAgain={fetchAgain}
+                                    setFetchAgain={setFetchAgain}
+                                    fetchMessages={fetchMessages} />
+                            </>)
+                            : (<>
+                                {getSender(user, selectedChat.users)}
+                                <AppProfileModal user={getFullSender(user, selectedChat?.users)} />
+                            </>)}
                     </Text>
                     <Box d='flex' flexDir='column' justifyContent='flex-end'
                         p={3} bg='#E8E8E8' w='100%' h='100%'
                         overflowY='hidden' borderRadius='lg'>
                         {isLoading ? (
-                            <Spinner size='xl' w={20} h={20} alignSelf='center' margin='auto' />
-                        ) : (
-                            <div className='messages'>
-                                <ScrollableChat messages={messages} />
-                            </div>
-                        )}
+                            <Spinner size='xl' w={20} h={20} alignSelf='center'
+                                margin='auto' />
+                        ) : (<div className='messages'>
+                            <ScrollableChat messages={messages} />
+                        </div>)}
                         <FormControl onKeyDown={sendMessage} required mt={3}>
                             {isTyping && (
                                 <div><Lottie width={70}
@@ -202,12 +197,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                         </Text>
                     </Box>
                 )}
-
-
-
-
         </>
-    )
+    );
 };
 
 export default SingleChat;
