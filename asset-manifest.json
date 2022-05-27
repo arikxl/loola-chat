@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/loola-chat/static/css/main.a34d2296.css",
+    "main.js": "/loola-chat/static/js/main.e0c45e3f.js",
+    "static/media/internet-6507584_1920.jpg": "/loola-chat/static/media/internet-6507584_1920.45b0eaab18280e6b76ab.jpg",
+    "index.html": "/loola-chat/index.html",
+    "main.a34d2296.css.map": "/loola-chat/static/css/main.a34d2296.css.map",
+    "main.e0c45e3f.js.map": "/loola-chat/static/js/main.e0c45e3f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a34d2296.css",
+    "static/js/main.e0c45e3f.js"
+  ]
+}
