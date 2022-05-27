@@ -7,16 +7,20 @@ import {
   useToast,
   VStack
 } from '@chakra-ui/react';
+import { ChatState } from '../../context/chatProvider';
+
 
 const Login = () => {
+
+  const { setUser } = ChatState();
   const toast = useToast();
   const navigate = useNavigate();
-
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  
   const handleSubmit = async () => {
     setLoading(true);
     if (!email || !password) {
@@ -48,11 +52,14 @@ const Login = () => {
         position: 'top',
       });
       localStorage.setItem('chatUserInfo', JSON.stringify(data));
-      setLoading(false);
-      setTimeout(() => {
-        navigate('/chats');
-        navigate(0);
-      } , 1000);
+      if (data) {
+        setUser(data);
+        setLoading(false);
+        setTimeout(() => {
+          navigate('/chats');
+          navigate(0);
+        }, 1000);
+      }
     }
     catch (err) {
       toast({
@@ -75,7 +82,7 @@ const Login = () => {
           כתובת מייל
         </FormLabel>
         <Input placeholder='מה המייל שלך?' type='email'
-        value={email}
+          value={email}
           onChange={(e) => setEmail(e.target.value)} />
       </FormControl>
 
@@ -89,7 +96,7 @@ const Login = () => {
             </Button>
           </InputLeftElement>
           <Input placeholder='סיסמא בבקשה'
-          value={password}
+            value={password}
             type={show ? 'text' : 'password'}
             onChange={(e) => setPassword(e.target.value)} />
         </InputGroup>

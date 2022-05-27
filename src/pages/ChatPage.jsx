@@ -14,9 +14,13 @@ const ChatPage = () => {
     const { user } = ChatState();
     const [fetchAgain, setFetchAgain] = useState(false);
 
-
+    if(!user) {
+        return <h1>Please Login</h1>
+    }
+    
     return (
         <div style={{ width: '100%' }}>
+            {/* <p>test</p> */}
             {user && <ChatHeader />}
             <Box d='flex' justifyContent='space-between'
                 w='100%' h='92vh' p='10px'>

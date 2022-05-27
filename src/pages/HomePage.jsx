@@ -7,16 +7,19 @@ import {
 
 import Login from '../components/auth/Login';
 import SignUp from '../components/auth/SignUp';
+import { ChatState } from '../context/chatProvider';
 
 const HomePage = () => {
+
+  const { user } = ChatState();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('chatUserInfo'));
 
     if (user) {
       navigate('/chats');
+      // setUser(user);
     };
   }, [navigate]);
 

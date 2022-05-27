@@ -13,7 +13,7 @@ const ChatHeader = () => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const { user, setSelectedChat, notifications, setNotifications
   } = ChatState();
-
+  
   const [search, setSearch] = useState('');
 
   return (
