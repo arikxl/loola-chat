@@ -18,7 +18,7 @@ import {
 } from '../../utils/chatUtils';
 
 // const ENDPOINT = 'http://localhost:5000';
-const ENDPOINT = 'https://loola-chat.herokuapp.com/';
+const ENDPOINT = '';
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
