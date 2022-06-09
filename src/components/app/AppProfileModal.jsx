@@ -2,16 +2,21 @@ import React from 'react';
 import { ViewIcon } from '@chakra-ui/icons';
 import { useDisclosure } from '@chakra-ui/hooks';
 import {
-    Button, IconButton, Image, Modal, ModalBody, ModalCloseButton,
-    ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text
+    FormControl,
+    FormLabel,
+    IconButton, Image, Input, Modal, ModalBody, ModalCloseButton,
+    ModalContent,  ModalHeader, ModalOverlay, Text, toast
 } from '@chakra-ui/react';
 import { ChatState } from '../../context/chatProvider';
 
-const AppProfileModal = ({ children }) => {
+
+const AppProfileModal = ({ children, userToChat }) => {
 
     const { user } = ChatState();
     const { name, img, email, _id } = user;
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+
 
     return (
         <>
@@ -25,18 +30,32 @@ const AppProfileModal = ({ children }) => {
                 <ModalOverlay />
                 <ModalContent h='400px'>
                     <ModalHeader fontSize='40px' d='flex' justifyContent='center'>
-                        {name}
+                        {userToChat ? userToChat.name : name}
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody alignItems='center' d='flex' flexDirection='column'>
-                        <Image src={img ? img
-                            : `https://robohash.org/${_id}?set=set4`
-                            // : `https://avatars.dicebear.com/api/open-peeps/${_id}.svg`
-                        }
-                            alt={name}
-                            borderRadius='full' boxSize='150px' />
+                        {userToChat ? (
+                            <Image src={
+                                userToChat.img ? userToChat.img
+                                    : `https://robohash.org/${userToChat._id}?set=set4`
+                                // : `https://avatars.dicebear.com/api/open-peeps/${_id}.svg`
+                            }
+                                alt={name}
+                                borderRadius='full' boxSize='150px' />
+                        )
+                            : (
+
+                                <Image src={
+                                    img ? img
+                                        : `https://robohash.org/${_id}?set=set4`
+                                    // : `https://avatars.dicebear.com/api/open-peeps/${_id}.svg`
+                                }
+                                    alt={name}
+                                    borderRadius='full' boxSize='150px' />
+                            )}
                         <Text fontSize={{ base: '28px', md: '30px' }}>
-                            {email}
+                            {userToChat ? userToChat.email : email}
+                        
                         </Text>
                     </ModalBody>
                 </ModalContent>

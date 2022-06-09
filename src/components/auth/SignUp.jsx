@@ -172,7 +172,7 @@ const SignUp = () => {
 
       <FormControl id='img' >
         <FormLabel>
-          תמונה מהממת בבקשה
+            תמונה מהממת בבקשה
         </FormLabel>
         <Input type='file' p={1.5} accept={'image/*'}
           onChange={(e) => postDetails(e.target.files[0])} />

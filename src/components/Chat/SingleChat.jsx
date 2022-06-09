@@ -18,7 +18,7 @@ import {
 } from '../../utils/chatUtils';
 
 // const ENDPOINT = 'http://localhost:5000';
-const ENDPOINT = '';
+const ENDPOINT = 'https://loola-chat.herokuapp.com/';
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -162,7 +162,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                             </>)
                             : (<>
                                 {getSender(user, selectedChat.users)}
-                                <AppProfileModal user={getFullSender(user, selectedChat?.users)} />
+                                <AppProfileModal userToChat={getFullSender(user, selectedChat?.users)} />
                             </>)}
                     </Text>
                     <Box d='flex' flexDir='column' justifyContent='flex-end'

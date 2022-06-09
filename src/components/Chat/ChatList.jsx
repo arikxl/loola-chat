@@ -5,6 +5,7 @@ import { Avatar, Box, Stack, Text, useToast } from '@chakra-ui/react';
 import LoadingSkeleton from '../loaders/LoadingSkeleton';
 import { ChatState } from '../../context/chatProvider';
 import { getConfig, getFullSender, getSender, getSenderImg } from '../../utils/chatUtils';
+import ChatListHeadLine from './ChatListHeadLine';
 
 const ChatList = ({ fetchAgain }) => {
 
@@ -46,6 +47,7 @@ const ChatList = ({ fetchAgain }) => {
       <Box d='flex' flexDir='column' p={3} bg='#F8F8F8'
         w='100%' h='100%' borderRadius='lg' overflowY='hidden'
       >{chats.length === 0 && <Text>עם מי נתכתב?</Text>}
+      <ChatListHeadLine />
         {chats
           ? (
             <Stack overflowY='scroll'>
